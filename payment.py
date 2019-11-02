@@ -1,25 +1,55 @@
 #!/usr/local/bin/python3
-from .. import connection_library as CL
+from connection_library import Connection
 
 def getInput():
-    command_string = input("Input (foodID1, foodID2.... -> )")
-    food_arr = [word.strip() for word in command_string.split(',')]
+    command_string = input("> ")
+    food_arr = [word.strip() for word in command_string.split()]
     return food_arr
     
 def verifyTicket(ticketno,db):
     ticketexist = "SELECT * FROM TICKET WHERE TICKETID = {}"
-    db.opencursor()
+    ticketpaid = "SELECT STATUS FROM TICKET WHERE TICKETID = {}"
     
-    if (not db.query(ticketexist.format(ticketno))):
+    try:
+        db.opencursor()
+        if (not db.query(ticketexist.format(ticketno))):
+            return False
+        if (0 != db.query(ticketpaid.format(ticketno))[0][0]):
+            return False
+    except:
         return False
-    
-    db.closecursor()
+    finally:
+        db.closecursor()
+        
     return True
+    
+def payTicket(ticketno, db):
+    updatestatus = "UPDATE TICKET SET STATUS = 1 WHERE TICKETID = {}"
+
+    try:
+        db.opencursor()
+        
+        db.query(updatestatus.format(ticketno))
+    except:
+        raise Exception("Invalid ticketno")
+        
+    finally:
+        db.closecursor()
+    
+    
+def verifyProcess(ticketno,db):
+    valid = verifyTicket(ticketno,db)
+    
+    if (not valid):
+        raise Exception("Ticket is not valid")
+        
+    payTicket(ticketno, db)
+    
 
 def cli():
     print("Running payment....")
     
-    db = CL.Connection()
+    db = Connection()
     db.opencnx()
     
     while True:
@@ -27,12 +57,29 @@ def cli():
         
         if (action[0] == "v"):
             # Verify ticket & Set status
-            ticket_no = action[1]
+            try:
+                ticket_no = action[1]
+            except IndexError:
+                print("Error: No ticket number inserted")
+                continue
             
             valid = verifyTicket(ticket_no, db)
-            print(valid)
+            if (not valid):
+                print("Error: Ticket is invalid")
+                continue
+                
+            # Assumed that student always pays enough
+            payTicket(ticket_no, db)
             
             
+        elif (action[0] == "q"):
+            break
+            
+        else:
+            print("v # : Verify ticket number\nq : Quit program")
+            
+            
+    print("Closing...")
     db.closecnx()
         
 
