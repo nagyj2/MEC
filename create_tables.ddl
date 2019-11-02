@@ -1,4 +1,4 @@
--- To run: mysql -u root -p mec < ~/path/to/folder/file.ddl 
+-- To run: mysql -u root -p mec < ~/path/to/folder/file.ddl
 
 USE MEC;
 
@@ -7,13 +7,13 @@ DROP TABLE IF EXISTS FoodItems;
 DROP TABLE IF EXISTS Ticket;
 
 CREATE TABLE IF NOT EXISTS FoodItems(
-  FoodID int NOT NULL,
+  FoodID int NOT NULL AUTO_INCREMENT=001,
   Price int NOT NULL,
   PRIMARY KEY (FoodID)
 );
 
 CREATE TABLE IF NOT EXISTS Ticket(
-  TicketID int NOT NULL,
+  TicketID int NOT NULL AUTO_INCREMENT=1001,
   Status int,
   Price int,
   PRIMARY KEY (TicketID)
