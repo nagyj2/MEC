@@ -1,3 +1,5 @@
+-- To run: mysql -u root -p mec < ~/path/to/folder/file.ddl 
+
 USE MEC;
 
 DROP TABLE IF EXISTS Assigned;
