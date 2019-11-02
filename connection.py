@@ -15,12 +15,7 @@ class Connection():
                                   password=self._cred[1],
                                   database=self._cred[2])
         except mysql.connector.Error as err:
-            if err.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR:
-                print("Incorrect credentials")
-            elif err.errno == errorcode.ER_BAD_DV_ERROR:
-                print("Database not available")
-            else:
-                print(err)
+            print("Error connecting to database:",err)
                 
     def closecnx(self):
         self.cnx.commit()
