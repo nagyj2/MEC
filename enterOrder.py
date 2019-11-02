@@ -19,7 +19,7 @@ def checkentry():
         validEntry = False
 
     if validEntry:
-        if app.getOptionBox("Sandwich") == "0" and app.getOptionBox("Wrap") == "0" and app.getOptionBox("Fries") == "0"and app.getOptionBox("Drink") == "0" and app.getOptionBox("Pizza") == "0":
+        if app.getOptionBox("Sandwich") == "0" and app.getOptionBox("Wrap") == "0" and app.getOptionBox("Fries") == "0" and app.getOptionBox("Drink") == "0" and app.getOptionBox("Pizza") == "0":
             app.infoBox("Error", "Please select food quantity.")
             validEntry = False
 
