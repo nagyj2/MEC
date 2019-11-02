@@ -4,18 +4,29 @@
 from connection import Connection
 
 def wait_for_cook_commandline():
-    command_string = input("Input (foodID1, foodID2.... -> ): \n")
+	while True:
+		command_string = input("Input (foodID1, foodID2.... -> ): \n")
 
-    cmd_arr = [word.strip() for word in command_string.split(',')]
-    food_entries = cmd_arr[1:]
+		cmd_arr = [word.strip() for word in command_string.split(',')]
+		food_entries = cmd_arr[1:]
+		ticketID = cmd_arr[0]
+		if check_ticket_state():
+			print("Error: Ticket was not properly checked out")
+		else:
+			break
+    
 
-    assign_order(ticketID = cmd_arr[0], foodID_arr = food_entries)
+    assign_order(ticketID = ticketID, foodID_arr = food_entries)
 
-def assign_order(self, table="assigned", ticketID, foodID_arr, quantity=1):
+def assign_order(self, ticketID, foodID_arr, quantity=1 table="assigned",):
 	for food in foodID_arr:
 		result = db.query("insert into {} values({}, {}, {})".format(table, ticketID, food, quantity))
 		print(result)
-	
+
+def check_ticket_state(ticketID):
+	result = dn.query("select status from ticket where ticketID = {}".format(ticketID))
+	return bool(int(ticketID))
+
 def main():
 
 	while True:
