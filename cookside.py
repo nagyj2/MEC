@@ -14,11 +14,15 @@ def wait_for_cook_commandline():
 			print("Error: Ticket was not properly checked out")
 		else:
 			break
-    
 
 	assign_order(ticketID = ticketID, foodID_arr = food_entries)
 
+def receive_cook_input(ticketID, foodID_list):
 
+	if check_ticket_state():
+		print("Error: Ticket was not properly checked out")
+	else:
+		assign_order(ticketID = ticketID, foodID_arr = food_entries)
 
 def assign_order(self, ticketID, foodID_arr, quantity=1 table="assigned",):
 	for food in foodID_arr:
@@ -33,8 +37,8 @@ def main():
 
 	while True:
 
-    print("Running cookside....")
-    wait_for_cook_commandline()
+		print("Running cookside....")
+		wait_for_cook_commandline()
 
 
 if __name__ == "__main__":
