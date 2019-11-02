@@ -24,7 +24,7 @@ def receive_cook_input(ticketID, foodID_list):
 	else:
 		assign_order(ticketID = ticketID, foodID_arr = food_entries)
 
-def assign_order(self, ticketID, foodID_arr, quantity=1 table="assigned",):
+def assign_order(self, ticketID, foodID_arr, quantity=1, table="assigned"):
 	for food in foodID_arr:
 		result = db.query("insert into {} values({}, {}, {})".format(table, ticketID, food, quantity))
 		print(result)
