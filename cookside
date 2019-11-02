@@ -1,0 +1,52 @@
+#!/usr/local/bin/python3
+from connection import Connection
+
+db = Connection()
+db.opencnx()
+
+while True:
+    action = input(">").split()
+    
+    
+    if (action[0] == "t"):
+        number = action[1]
+        
+        db.opencursor()
+        
+        query = "select * from assigned_ticket where num = %s;" % number
+        if (db.query(query)):
+            print("Already assigned")
+            continue
+        
+        query = "insert into assigned_ticket values(%s);" % number
+        db.query(query)
+        
+        db.closecursor()
+        
+    elif (action[0] == "u"):
+        number = action[1]
+        
+        db.opencursor()
+        
+        query = "select * from assigned_ticket where num = %s;" % number
+        if (not db.query(query)):
+            print("Ticket not assigned")
+            continue
+        
+        query = "delete from assigned_ticket where num = %s;" % number
+        db.query(query)
+        
+        db.closecursor()
+        
+    elif (action[0] == "l"):
+        db.opencursor()
+        print(db.query("select * from assigned_ticket"))
+        db.closecursor()
+    
+    elif (action[0] == "q"):
+        break
+        
+    else:
+        print("Unknown input\nt #: Assign new ticket\nu #: Unassign ticket\nq: Quit program")
+
+db.closecnx()
