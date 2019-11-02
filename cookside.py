@@ -16,7 +16,9 @@ def wait_for_cook_commandline():
 			break
     
 
-    assign_order(ticketID = ticketID, foodID_arr = food_entries)
+	assign_order(ticketID = ticketID, foodID_arr = food_entries)
+
+
 
 def assign_order(self, ticketID, foodID_arr, quantity=1 table="assigned",):
 	for food in foodID_arr:
