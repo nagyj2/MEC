@@ -1,5 +1,5 @@
 #!/usr/local/bin/python3
-from connection_library import Connection
+from connection import Connection
 
 def getInput():
     command_string = input("> ")
