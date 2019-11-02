@@ -51,6 +51,14 @@ def press(button):
             
             print("User:", ticketNum, " ", food)
 
+            app.infoBox("Success", "Submission Successful")
+            app.clearEntry("Ticket Number")
+            app.clearOptionBox("Sandwich")
+            app.clearOptionBox("Wrap")
+            app.clearOptionBox("Pizza")
+            app.clearOptionBox("Fries")
+            app.clearOptionBox("Drink")
+
             #callAlex() #inputs to database
 
             
