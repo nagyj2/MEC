@@ -23,15 +23,17 @@ class Connection():
                 print(err)
                 
     def closecnx(self):
+        self.cnx.commit()
         self.cnx.close()
-        self.cnx = None
+        # self.cnx = None
         
     def opencursor(self):
         self.cursor = self.cnx.cursor()
         
     def closecursor(self):
+        self.cnx.commit()
         self.cursor.close()
-        self.cursor = None
+        # self.cursor = None
                 
     def query(self,query):
         if (not self.cnx.is_connected()):
