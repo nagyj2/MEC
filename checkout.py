@@ -1,6 +1,10 @@
 # import the library
 from appJar import gui
+from payment import verifyTicket, payTicket
+from connection import Connection
 
+db = Connection()
+db.opencnx()
 
 #validate entry
 def checkentry():
@@ -9,7 +13,7 @@ def checkentry():
     if app.getEntry("Ticket Number") == "":
         app.infoBox("Error", "Please enter Ticket number.")
         validEntry = False
-
+    
     return validEntry
 
 # handle button events
@@ -19,22 +23,35 @@ def press(button):
     else:
         if checkentry():
             ticketNum = app.getEntry("Ticket Number")
-            total = getCheckoutTotal(ticketNum)
-            message = "Your total is $", total
-            yesno = app.questionBox("Payment", message)
-            if yesno == True:
-                print("paid")
-                #call paid
-                app.infoBox("Success", "Transaction Successful")
-                #reset values.
-                app.clearEntry("Ticket Number")
+            
+            if (verifyTicket(ticketNum,db)):
+            
+                total = getCheckoutTotal(ticketNum)
+                message = "Your total is $", total
+                yesno = app.questionBox("Payment", message)
+                
+                if yesno == True:
+                    completed = payTicket(ticketNum,db)
+                    #call paid
+                    if (completed):
+                        app.infoBox("Success", "Transaction Successful")
+                        #reset values.
+                        app.clearEntry("Ticket Number")
+                    else:
+                        print("Unknown Error")
                 
             else:
-                print("not paid")
+                app.infoBox("Failure", "Invalid ticket number")
                 
             
 def getCheckoutTotal(ticketNum):
-    return 10
+    getprice = "SELECT Price FROM Ticket WHERE TicketID = {}"
+    
+    db.opencursor()
+    answer = db.query(getprice.format(ticketNum))
+    db.closecursor()
+    
+    return answer
 
 # create a GUI variable called app
 app = gui("Login Window", "400x200")
@@ -57,4 +74,4 @@ app.setFocus("Ticket Number")
 
 # start the GUI
 app.go()
-
+db.closecnx()
