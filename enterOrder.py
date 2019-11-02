@@ -51,7 +51,9 @@ def press(button):
             
             print("User:", ticketNum, " ", food)
 
-            callAlex() #inputs to database
+            #callAlex() #inputs to database
+
+            
 
 # create a GUI variable called app
 app = gui("Login Window", "400x200")
@@ -75,7 +77,12 @@ app.addLabelOptionBox("Drink", ["0","1","2","3","4","5"])
 # link the buttons to the function called press
 app.addButtons(["Submit", "Cancel"], press)
 
-#app.setFocus("Username")
+def createTicket():
+    #call create ticket
+    return True
+
+app.addButtons(["Create Ticket"], createTicket)
+
 app.setFocus("Ticket Number")
 
 # start the GUI
