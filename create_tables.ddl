@@ -1,0 +1,24 @@
+DROP TABLE IF EXISTS FoodItems;
+CREATE TABLE IF NOT EXISTS FoodItems(
+  FoodID int NOT NULL,
+  Price int NOT NULL,
+  PRIMARY KEY (FoodID)
+);
+
+DROP TABLE IF EXISTS Ticket;
+CREATE TABLE IF NOT EXISTS Ticket(
+  TicketID int NOT NULL,
+  Status int,
+  Price int NOT NULL,
+  PRIMARY KEY (TicketID)
+);
+
+DROP TABLE IF EXISTS Assigned;
+CREATE TABLE IF NOT EXISTS Assigned(
+  FoodID int NOT NULL,
+  TicketID int NOT NULL,
+  Num int NOT NULL,
+  PRIMARY KEY (FoodID, TicketID),
+  CONSTRAINT FOREIGN KEY (FoodID) REFERENCES FoodItems(FoodID),
+  CONSTRAINT FOREIGN KEY (TicketID) REFERENCES Ticket(TicketID)
+);
